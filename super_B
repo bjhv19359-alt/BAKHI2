@@ -1,0 +1,413 @@
+local Players=game:GetService("Players")
+local UIS=game:GetService("UserInputService")
+local LP=Players.LocalPlayer
+local PG=LP:WaitForChild("PlayerGui")
+
+getgenv().SCRIPT_NOTES=getgenv().SCRIPT_NOTES or {}
+local NOTES=getgenv().SCRIPT_NOTES
+
+local GUI_NAME="SCRIPT_NOTES_B"
+
+local old=PG:FindFirstChild(GUI_NAME)
+if old then old:Destroy() end
+
+local NORMAL_W=280
+local NORMAL_H=300
+local MIN_W=250
+local MIN_H=230
+local MAX_W=520
+local MAX_H=600
+local MINI_H=38
+
+local gui=Instance.new("ScreenGui")
+gui.Name=GUI_NAME
+gui.ResetOnSpawn=false
+gui.ZIndexBehavior=Enum.ZIndexBehavior.Sibling
+gui.Parent=PG
+
+local Main=Instance.new("Frame")
+Main.Name="Main"
+Main.Size=UDim2.fromOffset(NORMAL_W,NORMAL_H)
+Main.Position=UDim2.new(.5,-NORMAL_W/2,.5,-NORMAL_H/2)
+Main.BackgroundColor3=Color3.fromRGB(22,22,28)
+Main.BackgroundTransparency=.05
+Main.BorderSizePixel=0
+Main.ClipsDescendants=true
+Main.Active=true
+Main.Parent=gui
+
+local Corner=Instance.new("UICorner")
+Corner.CornerRadius=UDim.new(0,8)
+Corner.Parent=Main
+
+local Stroke=Instance.new("UIStroke")
+Stroke.Color=Color3.fromRGB(110,110,125)
+Stroke.Thickness=1
+Stroke.Transparency=.15
+Stroke.Parent=Main
+
+local Header=Instance.new("Frame")
+Header.Size=UDim2.new(1,0,0,38)
+Header.BackgroundColor3=Color3.fromRGB(30,30,38)
+Header.BackgroundTransparency=.08
+Header.BorderSizePixel=0
+Header.Active=true
+Header.ZIndex=10
+Header.Parent=Main
+
+local HeaderCorner=Instance.new("UICorner")
+HeaderCorner.CornerRadius=UDim.new(0,8)
+HeaderCorner.Parent=Header
+
+local Title=Instance.new("TextLabel")
+Title.Size=UDim2.new(1,-48,1,0)
+Title.Position=UDim2.fromOffset(10,0)
+Title.BackgroundTransparency=1
+Title.Text="BÁ KHÍ B"
+Title.TextColor3=Color3.fromRGB(255,255,255)
+Title.TextSize=14
+Title.Font=Enum.Font.GothamBold
+Title.TextXAlignment=Enum.TextXAlignment.Left
+Title.TextTruncate=Enum.TextTruncate.AtEnd
+Title.Active=false
+Title.ZIndex=11
+Title.Parent=Header
+
+local Collapse=Instance.new("TextButton")
+Collapse.Size=UDim2.fromOffset(32,30)
+Collapse.Position=UDim2.new(1,-36,0,4)
+Collapse.BackgroundColor3=Color3.fromRGB(45,45,55)
+Collapse.BorderSizePixel=0
+Collapse.Text="-"
+Collapse.TextColor3=Color3.fromRGB(255,255,255)
+Collapse.TextSize=18
+Collapse.Font=Enum.Font.GothamBold
+Collapse.ZIndex=20
+Collapse.Parent=Header
+
+local CollapseCorner=Instance.new("UICorner")
+CollapseCorner.CornerRadius=UDim.new(0,6)
+CollapseCorner.Parent=Collapse
+
+local DragBar=Instance.new("TextButton")
+DragBar.Size=UDim2.new(1,-42,1,0)
+DragBar.BackgroundTransparency=1
+DragBar.BorderSizePixel=0
+DragBar.Text=""
+DragBar.AutoButtonColor=false
+DragBar.ZIndex=12
+DragBar.Parent=Header
+
+local ListPage=Instance.new("Frame")
+ListPage.Size=UDim2.new(1,-10,1,-48)
+ListPage.Position=UDim2.fromOffset(5,43)
+ListPage.BackgroundTransparency=1
+ListPage.ClipsDescendants=true
+ListPage.Parent=Main
+
+local Scroll=Instance.new("ScrollingFrame")
+Scroll.Size=UDim2.new(1,0,1,0)
+Scroll.BackgroundColor3=Color3.fromRGB(28,28,36)
+Scroll.BorderSizePixel=0
+Scroll.ScrollBarThickness=3
+Scroll.ScrollBarImageTransparency=.25
+Scroll.AutomaticCanvasSize=Enum.AutomaticSize.Y
+Scroll.CanvasSize=UDim2.new()
+Scroll.ClipsDescendants=true
+Scroll.Parent=ListPage
+
+local ScrollCorner=Instance.new("UICorner")
+ScrollCorner.CornerRadius=UDim.new(0,6)
+ScrollCorner.Parent=Scroll
+
+local Layout=Instance.new("UIListLayout")
+Layout.Padding=UDim.new(0,5)
+Layout.SortOrder=Enum.SortOrder.LayoutOrder
+Layout.Parent=Scroll
+
+local ContentPage=Instance.new("Frame")
+ContentPage.Size=UDim2.new(1,-10,1,-48)
+ContentPage.Position=UDim2.fromOffset(5,43)
+ContentPage.BackgroundTransparency=1
+ContentPage.ClipsDescendants=true
+ContentPage.Visible=false
+ContentPage.Parent=Main
+
+local CodeBox=Instance.new("TextBox")
+CodeBox.Size=UDim2.new(1,0,1,-38)
+CodeBox.BackgroundColor3=Color3.fromRGB(15,15,20)
+CodeBox.BorderSizePixel=0
+CodeBox.ClearTextOnFocus=false
+CodeBox.MultiLine=true
+CodeBox.TextWrapped=false
+CodeBox.TextXAlignment=Enum.TextXAlignment.Left
+CodeBox.TextYAlignment=Enum.TextYAlignment.Top
+CodeBox.TextSize=11
+CodeBox.Font=Enum.Font.Code
+CodeBox.TextColor3=Color3.fromRGB(235,235,240)
+CodeBox.Text=""
+CodeBox.TextEditable=false
+CodeBox.ClipsDescendants=true
+CodeBox.Parent=ContentPage
+
+local CodeCorner=Instance.new("UICorner")
+CodeCorner.CornerRadius=UDim.new(0,6)
+CodeCorner.Parent=CodeBox
+
+local Exit=Instance.new("TextButton")
+Exit.Size=UDim2.new(.5,-3,0,32)
+Exit.Position=UDim2.new(0,0,1,-32)
+Exit.BackgroundColor3=Color3.fromRGB(38,38,48)
+Exit.BorderSizePixel=0
+Exit.Text="THOÁT"
+Exit.TextColor3=Color3.fromRGB(255,255,255)
+Exit.TextSize=10
+Exit.Font=Enum.Font.GothamBold
+Exit.Parent=ContentPage
+
+local ExitCorner=Instance.new("UICorner")
+ExitCorner.CornerRadius=UDim.new(0,5)
+ExitCorner.Parent=Exit
+
+local Copy=Instance.new("TextButton")
+Copy.Size=UDim2.new(.5,-3,0,32)
+Copy.Position=UDim2.new(.5,3,1,-32)
+Copy.BackgroundColor3=Color3.fromRGB(38,38,48)
+Copy.BorderSizePixel=0
+Copy.Text="COPY"
+Copy.TextColor3=Color3.fromRGB(255,255,255)
+Copy.TextSize=10
+Copy.Font=Enum.Font.GothamBold
+Copy.Parent=ContentPage
+
+local CopyCorner=Instance.new("UICorner")
+CopyCorner.CornerRadius=UDim.new(0,5)
+CopyCorner.Parent=Copy
+
+local selectedIndex=nil
+local minimized=false
+local lastW=NORMAL_W
+local lastH=NORMAL_H
+
+local function clearList()
+	for _,v in ipairs(Scroll:GetChildren()) do
+		if v:IsA("TextButton") then
+			v:Destroy()
+		end
+	end
+end
+
+local function refreshList()
+	clearList()
+
+	for i,note in ipairs(NOTES) do
+		local item=Instance.new("TextButton")
+		item.Size=UDim2.new(1,-8,0,36)
+		item.BackgroundColor3=Color3.fromRGB(38,38,48)
+		item.BorderSizePixel=0
+		item.Text=note.name or ("Script "..i)
+		item.TextColor3=Color3.fromRGB(235,235,240)
+		item.TextSize=11
+		item.Font=Enum.Font.Gotham
+		item.TextXAlignment=Enum.TextXAlignment.Left
+		item.TextTruncate=Enum.TextTruncate.AtEnd
+		item.ClipsDescendants=true
+		item.LayoutOrder=i
+		item.AutoButtonColor=true
+		item.Parent=Scroll
+
+		local pad=Instance.new("UIPadding")
+		pad.PaddingLeft=UDim.new(0,9)
+		pad.PaddingRight=UDim.new(0,6)
+		pad.Parent=item
+
+		local c=Instance.new("UICorner")
+		c.CornerRadius=UDim.new(0,6)
+		c.Parent=item
+
+		item.MouseButton1Click:Connect(function()
+			selectedIndex=i
+			CodeBox.Text=NOTES[i].code or ""
+
+			ListPage.Visible=false
+			ContentPage.Visible=true
+		end)
+	end
+end
+
+Exit.MouseButton1Click:Connect(function()
+	ContentPage.Visible=false
+	ListPage.Visible=true
+end)
+
+Copy.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(CodeBox.Text)
+	end
+end)
+
+local function setSize(w,h)
+	w=math.clamp(w,MIN_W,MAX_W)
+	h=math.clamp(h,MIN_H,MAX_H)
+
+	Main.Size=UDim2.fromOffset(w,h)
+
+	if not minimized then
+		lastW=w
+		lastH=h
+	end
+end
+
+local resizing=false
+local resizeStart
+local resizeSize
+
+local Resize=Instance.new("TextButton")
+Resize.Size=UDim2.fromOffset(20,20)
+Resize.Position=UDim2.new(1,-20,1,-20)
+Resize.BackgroundTransparency=1
+Resize.Text="◢"
+Resize.TextColor3=Color3.fromRGB(160,160,175)
+Resize.TextSize=13
+Resize.Font=Enum.Font.GothamBold
+Resize.ZIndex=30
+Resize.Parent=Main
+
+Resize.InputBegan:Connect(function(input)
+	if input.UserInputType~=Enum.UserInputType.Touch
+		and input.UserInputType~=Enum.UserInputType.MouseButton1 then
+		return
+	end
+
+	resizing=true
+	resizeStart=input.Position
+	resizeSize=Main.AbsoluteSize
+
+	input.Changed:Connect(function()
+		if input.UserInputState==Enum.UserInputState.End then
+			resizing=false
+		end
+	end)
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if not resizing then
+		return
+	end
+
+	if input.UserInputType~=Enum.UserInputType.Touch
+		and input.UserInputType~=Enum.UserInputType.MouseMovement then
+		return
+	end
+
+	local delta=input.Position-resizeStart
+
+	setSize(
+		resizeSize.X+delta.X,
+		resizeSize.Y+delta.Y
+	)
+end)
+
+local dragging=false
+local dragStart
+local startPos
+
+DragBar.InputBegan:Connect(function(input)
+	if input.UserInputType~=Enum.UserInputType.Touch
+		and input.UserInputType~=Enum.UserInputType.MouseButton1 then
+		return
+	end
+
+	dragging=true
+	dragStart=input.Position
+	startPos=Main.Position
+
+	input.Changed:Connect(function()
+		if input.UserInputState==Enum.UserInputState.End then
+			dragging=false
+		end
+	end)
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if not dragging then
+		return
+	end
+
+	if input.UserInputType~=Enum.UserInputType.Touch
+		and input.UserInputType~=Enum.UserInputType.MouseMovement then
+		return
+	end
+
+	local delta=input.Position-dragStart
+
+	Main.Position=UDim2.new(
+		startPos.X.Scale,
+		startPos.X.Offset+delta.X,
+		startPos.Y.Scale,
+		startPos.Y.Offset+delta.Y
+	)
+end)
+
+Collapse.MouseButton1Click:Connect(function()
+	minimized=not minimized
+
+	if minimized then
+		lastW=Main.AbsoluteSize.X
+		lastH=Main.AbsoluteSize.Y
+
+		Main.Size=UDim2.fromOffset(lastW,MINI_H)
+
+		ListPage.Visible=false
+		ContentPage.Visible=false
+		Resize.Visible=false
+
+		Collapse.Text="+"
+	else
+		Main.Size=UDim2.fromOffset(lastW,lastH)
+
+		if selectedIndex and NOTES[selectedIndex] then
+			ListPage.Visible=false
+			ContentPage.Visible=true
+		else
+			ListPage.Visible=true
+			ContentPage.Visible=false
+		end
+
+		Resize.Visible=true
+		Collapse.Text="-"
+	end
+end)
+
+local lastSignature=""
+
+task.spawn(function()
+	while gui.Parent do
+		local parts={}
+
+		for i,note in ipairs(NOTES) do
+			parts[#parts+1]=tostring(i)
+			parts[#parts+1]=tostring(note.name)
+			parts[#parts+1]=tostring(#(note.code or ""))
+		end
+
+		local signature=table.concat(parts,"|")
+
+		if signature~=lastSignature then
+			lastSignature=signature
+
+			if selectedIndex and not NOTES[selectedIndex] then
+				selectedIndex=nil
+				CodeBox.Text=""
+				ContentPage.Visible=false
+				ListPage.Visible=true
+			end
+
+			refreshList()
+		end
+
+		task.wait(.4)
+	end
+end)
+
+refreshList()
